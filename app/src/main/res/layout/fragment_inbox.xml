@@ -11,8 +11,8 @@
         android:id="@+id/btn_fecha"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Fecha"
-        android:onClick="datePicker"/>
+        android:onClick="datePicker"
+        android:text="Ingresa Fecha de Vencimiento" />
 
 
     <EditText
