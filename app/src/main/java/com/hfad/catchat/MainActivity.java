@@ -1,5 +1,6 @@
 package com.hfad.catchat;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -16,12 +17,16 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.support.v4.app.FragmentManager;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
@@ -54,8 +59,36 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.add(R.id.content_frame, fragment);
         ft.commit();
+
+
     }
-        //cargando el datepicker
+
+
+// cargar el escaneo de productos
+    @Override
+    public  void onActivityResult(int requestCode, int resultCode, Intent data){
+        EditText etxt_producto;
+        etxt_producto = (EditText) findViewById(R.id.etxt_producto);
+
+        if (requestCode==IntentIntegrator.REQUEST_CODE)
+        {
+            IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (scanResult != null)
+            {
+                etxt_producto.setText(scanResult.getContents());
+            }
+            else
+            {
+                // else continue with any other code you need in the method
+                Toast.makeText(this, "No escaneado", Toast.LENGTH_SHORT).show();            }
+        }
+    }
+    public void onClickFindProducto(View view){
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.initiateScan();
+
+    }
+    //cargando el datepicker
         /**
          * This callback method, call DatePickerFragment class,
          * DatePickerFragment class returns calendar view.
@@ -150,3 +183,5 @@ public class MainActivity extends AppCompatActivity
     }
 
 }
+
+
